@@ -118,7 +118,7 @@ Agrega los siguientes controles desde la `Toolbox`:
 
 ---
 
-## 6. Código completo de Form1.cs
+## 6. Código completo de MainForm.cs
 
 **Nota importante:** SharpDevelop no soporta interpolación de cadenas (`$"..."`). Usamos `string.Format`.
 
