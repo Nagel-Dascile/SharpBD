@@ -25,4 +25,4 @@ CREATE TABLE IF NOT EXISTS `usuario` (
 
 ## 2 Configurar ShaarpDevelop
 ### 2.1 4.1. Instalar el conector MySQL para .NET
-Descarga `mysql.dll`desde [mysql.dll](../LIB_CONEXION/MySql.Data.dll)
+Descarga `MySql.Data.dll`desde [mysql.dll]([../LIB_CONEXION/](https://github.com/jdcadenas/SharpEjemploBD/tree/main/LIB_CONEXION/MySql.Data.dll))
