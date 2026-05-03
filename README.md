@@ -62,11 +62,7 @@ using MySql.Data.MySqlClient;
 using System.Data;
 ```
 
-
-
----
-
-## 2. Entidad elegida: `tareas`
+## 2. Entidad elegida: `usuario`
 
 Para que el aprendizaje sea rápido y claro, usaremos una tabla con **solo 3 columnas**:
 
@@ -81,35 +77,6 @@ Para que el aprendizaje sea rápido y claro, usaremos una tabla con **solo 3 col
 No hay relaciones con otras tablas. Es totalmente independiente.
 
 ---
-
-## 3. Script SQL para crear la base de datos y la tabla
-
-Abre phpMyAdmin (http://localhost/phpmyadmin), crea una base de datos llamada `plataforma_educativa` (si no existe) y ejecuta el siguiente SQL:
-
-```sql
--- Crear la tabla tareas
-CREATE TABLE tareas (
-    id INT PRIMARY KEY AUTO_INCREMENT,
-    descripcion VARCHAR(200) NOT NULL,
-    completada BOOLEAN DEFAULT 0
-);
-
--- Insertar algunas tareas de ejemplo
-INSERT INTO tareas (descripcion, completada) VALUES
-('Comprar leche', 0),
-('Estudiar C#', 0),
-('Hacer ejercicio', 1);
-```
-
-**Explicación:**  
-- `AUTO_INCREMENT` hace que el `id` se genere solo.  
-- Los datos de ejemplo permiten probar la aplicación inmediatamente.
-
----
-
-## 4. Configuración de SharpDevelop
-
-### 4.1. Descarga el conector MySQL para .NET
 
 ### 4.2. Crear el proyecto en SharpDevelop
 - Abre SharpDevelop → `File` → `New` → `Solution` → `C#` → `Windows Forms Application`  
@@ -138,9 +105,7 @@ Agrega los siguientes controles desde la `Toolbox`:
 
 | Control        | Nombre          | Propiedades importantes                     |
 |----------------|-----------------|---------------------------------------------|
-| `DataGridView` | `dgvTareas`     | `SelectionMode = FullRowSelect`            |
-| `TextBox`      | `txtDescripcion`| -                                           |
-| `CheckBox`     | `chkCompletada` | `Text = "Completada"`                      |
+| `DataGridView` | `dgvUsuarios`     | `SelectionMode = FullRowSelect`            |
 | `Button`       | `btnAgregar`    | `Text = "Agregar"`                         |
 | `Button`       | `btnActualizar` | `Text = "Actualizar"`                      |
 | `Button`       | `btnEliminar`   | `Text = "Eliminar"`                        |
@@ -148,10 +113,8 @@ Agrega los siguientes controles desde la `Toolbox`:
 | `Label`        | `lblEstado`     | `Text = "Listo"`                           |
 
 **Distribución sugerida:**  
-- `dgvTareas` ocupa la parte superior.  
-- Debajo, un `GroupBox` con título "Datos de la tarea" que contiene `txtDescripcion` y `chkCompletada`.  
-- Botones a la derecha o debajo del GroupBox.  
-- `lblEstado` en la parte inferior.
+- `dgvUsuarios` ocupa la parte superior.  
+
 
 ---
 
@@ -159,183 +122,7 @@ Agrega los siguientes controles desde la `Toolbox`:
 
 **Nota importante:** SharpDevelop no soporta interpolación de cadenas (`$"..."`). Usamos `string.Format`.
 
-Copia y pega todo el siguiente código en `Form1.cs` (reemplaza el existente):
-
-```csharp
-using System;
-using System.Data;
-using System.Windows.Forms;
-using MySql.Data.MySqlClient;
-
-namespace CRUD_Tareas
-{
-    public partial class Form1 : Form
-    {
-        // Cadena de conexión (cambia la contraseña si la tienes)
-        private string connectionString = "Server=localhost;Database=plataforma_educativa;Uid=root;Pwd=;";
-        private int tareaIdSeleccionada = -1;
-
-        public Form1()
-        {
-            InitializeComponent();
-            CargarTareas();
-        }
-
-        // 1. Cargar todas las tareas en el DataGridView
-        private void CargarTareas()
-        {
-            try
-            {
-                using (MySqlConnection conexion = new MySqlConnection(connectionString))
-                {
-                    conexion.Open();
-                    string consulta = "SELECT id, descripcion, completada FROM tareas";
-                    MySqlDataAdapter adaptador = new MySqlDataAdapter(consulta, conexion);
-                    DataTable tabla = new DataTable();
-                    adaptador.Fill(tabla);
-                    dgvTareas.DataSource = tabla;
-
-                    // Mejorar la vista de la columna "completada"
-                    if (dgvTareas.Columns.Contains("completada"))
-                        dgvTareas.Columns["completada"].HeaderText = "¿Completada? (0=Pendiente, 1=Lista)";
-
-                    lblEstado.Text = string.Format("Tareas cargadas: {0}", tabla.Rows.Count);
-                }
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(string.Format("Error al cargar: {0}", ex.Message));
-            }
-        }
-
-        // 2. Evento: al hacer clic en una fila, mostrar sus datos en los campos
-        private void dgvTareas_SelectionChanged(object sender, EventArgs e)
-        {
-            if (dgvTareas.SelectedRows.Count > 0)
-            {
-                DataGridViewRow fila = dgvTareas.SelectedRows[0];
-                tareaIdSeleccionada = Convert.ToInt32(fila.Cells["id"].Value);
-                txtDescripcion.Text = fila.Cells["descripcion"].Value.ToString();
-                chkCompletada.Checked = Convert.ToBoolean(fila.Cells["completada"].Value);
-                lblEstado.Text = string.Format("Editando tarea ID {0}", tareaIdSeleccionada);
-            }
-        }
-
-        // 3. Agregar una nueva tarea
-        private void btnAgregar_Click(object sender, EventArgs e)
-        {
-            if (string.IsNullOrWhiteSpace(txtDescripcion.Text))
-            {
-                MessageBox.Show("Escriba una descripción para la tarea.");
-                return;
-            }
-
-            string consulta = "INSERT INTO tareas (descripcion, completada) VALUES (@desc, @comp)";
-            try
-            {
-                using (MySqlConnection conexion = new MySqlConnection(connectionString))
-                {
-                    conexion.Open();
-                    MySqlCommand cmd = new MySqlCommand(consulta, conexion);
-                    cmd.Parameters.AddWithValue("@desc", txtDescripcion.Text);
-                    cmd.Parameters.AddWithValue("@comp", chkCompletada.Checked ? 1 : 0);
-                    cmd.ExecuteNonQuery();
-                }
-                MessageBox.Show("Tarea agregada correctamente.");
-                LimpiarCampos();
-                CargarTareas();
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(string.Format("Error al agregar: {0}", ex.Message));
-            }
-        }
-
-        // 4. Actualizar la tarea seleccionada
-        private void btnActualizar_Click(object sender, EventArgs e)
-        {
-            if (tareaIdSeleccionada == -1)
-            {
-                MessageBox.Show("Primero seleccione una tarea de la lista.");
-                return;
-            }
-
-            string consulta = "UPDATE tareas SET descripcion=@desc, completada=@comp WHERE id=@id";
-            try
-            {
-                using (MySqlConnection conexion = new MySqlConnection(connectionString))
-                {
-                    conexion.Open();
-                    MySqlCommand cmd = new MySqlCommand(consulta, conexion);
-                    cmd.Parameters.AddWithValue("@desc", txtDescripcion.Text);
-                    cmd.Parameters.AddWithValue("@comp", chkCompletada.Checked ? 1 : 0);
-                    cmd.Parameters.AddWithValue("@id", tareaIdSeleccionada);
-                    cmd.ExecuteNonQuery();
-                }
-                MessageBox.Show("Tarea actualizada.");
-                LimpiarCampos();
-                CargarTareas();
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(string.Format("Error al actualizar: {0}", ex.Message));
-            }
-        }
-
-        // 5. Eliminar la tarea seleccionada
-        private void btnEliminar_Click(object sender, EventArgs e)
-        {
-            if (tareaIdSeleccionada == -1)
-            {
-                MessageBox.Show("Seleccione una tarea para eliminar.");
-                return;
-            }
-
-            if (MessageBox.Show("¿Está seguro de eliminar esta tarea?", "Confirmar", MessageBoxButtons.YesNo) == DialogResult.Yes)
-            {
-                try
-                {
-                    using (MySqlConnection conexion = new MySqlConnection(connectionString))
-                    {
-                        conexion.Open();
-                        string consulta = "DELETE FROM tareas WHERE id=@id";
-                        MySqlCommand cmd = new MySqlCommand(consulta, conexion);
-                        cmd.Parameters.AddWithValue("@id", tareaIdSeleccionada);
-                        cmd.ExecuteNonQuery();
-                    }
-                    MessageBox.Show("Tarea eliminada.");
-                    LimpiarCampos();
-                    CargarTareas();
-                    tareaIdSeleccionada = -1;
-                }
-                catch (Exception ex)
-                {
-                    MessageBox.Show(string.Format("Error al eliminar: {0}", ex.Message));
-                }
-            }
-        }
-
-        // 6. Limpiar todos los campos manualmente
-        private void btnLimpiar_Click(object sender, EventArgs e)
-        {
-            LimpiarCampos();
-        }
-
-        // Método auxiliar para limpiar campos y resetear selección
-        private void LimpiarCampos()
-        {
-            txtDescripcion.Text = "";
-            chkCompletada.Checked = false;
-            tareaIdSeleccionada = -1;
-            lblEstado.Text = "Campos limpios. Puede agregar una nueva tarea.";
-        }
-    }
-}
-```
-
----
-
-## 7. Diagrama de flujo del CRUD
+   ## 7. Diagrama de flujo del CRUD
 
 ```
 [Inicio]
@@ -362,10 +149,9 @@ namespace CRUD_Tareas
 
 ---
 
-## 8. Explicación paso a paso para el profesor (guión de clase)
-
+## 8. Explicación paso a paso 
 ### 8.1. Crear la base de datos (5 min)
-*“Abran XAMPP, inicien MySQL, vayan a phpMyAdmin, crean la base de datos y ejecutan el script SQL que les di.”*
+*“Abran XAMPP, inicien MySQL, vayan a phpMyAdmin, crean la base de datos y ejecutan el script SQL ”*
 
 ### 8.2. Configurar SharpDevelop (10 min)
 *“Nuevo proyecto, agregamos la referencia a la DLL de MySQL, importamos los espacios de nombre.”*
@@ -374,7 +160,7 @@ namespace CRUD_Tareas
 *“Arrastren los controles como ven en la tabla. Nombren cada uno exactamente como está escrito.”*
 
 ### 8.4. Escribir el código – Cargar tareas (10 min)
-*“El método `CargarTareas` se conecta, hace un `SELECT` y llena el DataGridView. Observen el uso de `string.Format` en lugar de `$"..."`.”*
+*“El método `CargarTareas` se conecta, hace un `SELECT` y llena el DataGridView.”*
 
 ### 8.5. Seleccionar fila (5 min)
 *“El evento `SelectionChanged` captura la fila que el usuario hace clic. Guardamos el `id` y mostramos la descripción y el estado en los controles.”*
