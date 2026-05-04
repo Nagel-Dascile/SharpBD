@@ -78,27 +78,6 @@ No hay relaciones con otras tablas. Es totalmente independiente.
 
 ---
 
-### 4.2. Crear el proyecto en SharpDevelop
-- Abre SharpDevelop → `File` → `New` → `Solution` → `C#` → `Windows Forms Application`  
-- Nombre: `ejemploBD`  
-- Haz clic en `Create`.
-
-### 4.3. Agregar referencia a `MySql.Data.dll`
-- En el `Solution Explorer`, haz clic derecho en `References` → `Add Reference`  
-- Pestaña `.NET Assembly Browser` → `Browse`  
-- Busca el archivo `MySql.Data.dll` en la carpeta del conector y selecciónalo.  
-- Haz clic en `OK`. Verás que `MySql.Data` aparece bajo `References`.
-
-### 4.4. Agregar los espacios de nombres
-Abre `Form1.cs` y, al inicio, junto a los `using` existentes, escribe:
-
-```csharp
-using MySql.Data.MySqlClient;
-using System.Data;
-```
-
----
-
 ## 5. Diseño del formulario (interfaz)
 
 Agrega los siguientes controles desde la `Toolbox`:
@@ -118,11 +97,7 @@ Agrega los siguientes controles desde la `Toolbox`:
 
 ---
 
-## 6. Código completo de MainForm.cs
-
-**Nota importante:** SharpDevelop no soporta interpolación de cadenas (`$"..."`). Usamos `string.Format`.
-
-   ## 7. Diagrama de flujo del CRUD
+## 7. Diagrama de flujo del CRUD
 
 ```
 [Inicio]
