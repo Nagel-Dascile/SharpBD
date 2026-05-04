@@ -21,7 +21,8 @@ namespace ejemploBd
 	{
 		//paso 1.- crea una cadena de conexión
 		private string cadenaConexion =  "Server=localhost;Database=peducativa;Uid=root;Pwd=;";
-		
+		private bool _esEdicion = false;
+		private int _id = -1;
 		
 		public UsuarioNuevo()
 		{
@@ -29,6 +30,23 @@ namespace ejemploBd
 			// The InitializeComponent() call is required for Windows Forms designer support.
 			//
 			InitializeComponent();
+			
+		}
+		
+		public UsuarioNuevo(int id,string nombre, string clave, int rol)
+		{
+			//
+			// The InitializeComponent() call is required for Windows Forms designer support.
+			//
+			InitializeComponent();
+			txtNombre.Text =  nombre;
+			txtClave.Text = clave;
+			cmbRol.SelectedIndex = rol;
+			_id = id;
+			_esEdicion = true;
+			this.Text = "Editar Usuario";
+			btnGuardar.Text = "actualizar";
+			
 			
 		}
 		
@@ -46,7 +64,7 @@ namespace ejemploBd
 				return;
 			}
 			// Validar que haya un rol seleccionado
-			if (cmbRol.SelectedValue == null)
+			if (cmbRol.SelectedIndex == -1)
 			{
 				MessageBox.Show("Seleccione un rol.");
 				return;
@@ -54,9 +72,18 @@ namespace ejemploBd
 			
 			// Paso 1: Obtener el ID del rol usando SelectedValue (entero)
 			int idrol = (int)cmbRol.SelectedIndex;
-						
+			
+			// Definir la consulta según sea edición o nuevo
+			string consulta;
+			
 			// Paso 2: Consulta SQL con parámetros
-			string consulta = "INSERT INTO usuario (nombre, clave, rol) VALUES (@nombre, @clave,@rol)";
+			if (_esEdicion){
+				consulta = "UPDATE usuario SET nombre=@nombre, clave=@clave, rol=@rol WHERE id=@id";
+				btnGuardar.Text = "actualizar";
+			}
+			else
+				consulta = "INSERT INTO usuario (nombre, clave, rol) VALUES (@nombre, @clave, @rol)";		
+			
 			try
 			{
 				// Paso 3: Crear conexión y comando
@@ -67,11 +94,15 @@ namespace ejemploBd
 					cmd.Parameters.AddWithValue("@nombre", txtNombre.Text.Trim());
 					cmd.Parameters.AddWithValue("@clave", txtClave.Text);
 					cmd.Parameters.AddWithValue("@rol", idrol);
+					
+					if (_esEdicion)
+                    	cmd.Parameters.AddWithValue("@id", _id);
 					// Paso 5: Abrir y ejecutar
 					conexion.Open();
 					cmd.ExecuteNonQuery();
 				}
-				MessageBox.Show("Usuario agregada correctamente.");
+				MessageBox.Show(_esEdicion ? "Usuario actualizado correctamente." : "Usuario agregado correctamente.");
+				
 				this.DialogResult = DialogResult.OK;   // Para que el padre sepa que se agregó
 				this.Close();
 				

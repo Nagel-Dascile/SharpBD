@@ -40,7 +40,7 @@ namespace ejemploBd
 			this.dataView1 = new System.Data.DataView();
 			this.btnAgregarUsuario = new System.Windows.Forms.Button();
 			this.btnEliminarUsuario = new System.Windows.Forms.Button();
-			this.btnAcualizarUsuario = new System.Windows.Forms.Button();
+			this.btnActualizarUsuario = new System.Windows.Forms.Button();
 			this.lblEstado = new System.Windows.Forms.Label();
 			((System.ComponentModel.ISupportInitialize)(this.dgvUsuarios)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.dataView1)).BeginInit();
@@ -74,15 +74,17 @@ namespace ejemploBd
 			this.btnEliminarUsuario.TabIndex = 2;
 			this.btnEliminarUsuario.Text = "Eliminar";
 			this.btnEliminarUsuario.UseVisualStyleBackColor = true;
+			this.btnEliminarUsuario.Click += new System.EventHandler(this.BtnEliminarUsuarioClick);
 			// 
-			// btnAcualizarUsuario
+			// btnActualizarUsuario
 			// 
-			this.btnAcualizarUsuario.Location = new System.Drawing.Point(414, 285);
-			this.btnAcualizarUsuario.Name = "btnAcualizarUsuario";
-			this.btnAcualizarUsuario.Size = new System.Drawing.Size(107, 43);
-			this.btnAcualizarUsuario.TabIndex = 3;
-			this.btnAcualizarUsuario.Text = "Actualizar";
-			this.btnAcualizarUsuario.UseVisualStyleBackColor = true;
+			this.btnActualizarUsuario.Location = new System.Drawing.Point(414, 285);
+			this.btnActualizarUsuario.Name = "btnActualizarUsuario";
+			this.btnActualizarUsuario.Size = new System.Drawing.Size(107, 43);
+			this.btnActualizarUsuario.TabIndex = 3;
+			this.btnActualizarUsuario.Text = "Actualizar";
+			this.btnActualizarUsuario.UseVisualStyleBackColor = true;
+			this.btnActualizarUsuario.Click += new System.EventHandler(this.BtnAcualizarUsuarioClick);
 			// 
 			// lblEstado
 			// 
@@ -98,7 +100,7 @@ namespace ejemploBd
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.ClientSize = new System.Drawing.Size(691, 371);
 			this.Controls.Add(this.lblEstado);
-			this.Controls.Add(this.btnAcualizarUsuario);
+			this.Controls.Add(this.btnActualizarUsuario);
 			this.Controls.Add(this.btnEliminarUsuario);
 			this.Controls.Add(this.btnAgregarUsuario);
 			this.Controls.Add(this.dgvUsuarios);
@@ -109,7 +111,7 @@ namespace ejemploBd
 			this.ResumeLayout(false);
 		}
 		private System.Windows.Forms.Label lblEstado;
-		private System.Windows.Forms.Button btnAcualizarUsuario;
+		private System.Windows.Forms.Button btnActualizarUsuario;
 		private System.Windows.Forms.Button btnEliminarUsuario;
 		private System.Windows.Forms.Button btnAgregarUsuario;
 		private System.Data.DataView dataView1;
