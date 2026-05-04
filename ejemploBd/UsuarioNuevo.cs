@@ -34,6 +34,7 @@ namespace ejemploBd
 		
 		void BtnGuardarClick(object sender, EventArgs e)
 		{
+			// Validaciones de campos vacíos
 			if (string.IsNullOrWhiteSpace(txtNombre.Text))
 			{
 				MessageBox.Show("Escriba nombre para el usuario.");
@@ -44,25 +45,29 @@ namespace ejemploBd
 				MessageBox.Show("Escriba clave para el usuario.");
 				return;
 			}
-			if (cmbRol.SelectedItem == null)
+			// Validar que haya un rol seleccionado
+			if (cmbRol.SelectedValue == null)
 			{
 				MessageBox.Show("Seleccione un rol.");
 				return;
 			}
-			//paso 2.- Crea la consulta
+			
+			// Paso 1: Obtener el ID del rol usando SelectedValue (entero)
+			int idrol = (int)cmbRol.SelectedIndex;
+						
+			// Paso 2: Consulta SQL con parámetros
 			string consulta = "INSERT INTO usuario (nombre, clave, rol) VALUES (@nombre, @clave,@rol)";
 			try
 			{
-				//paso 3.- crea la conexion y ejecuta la consulta
+				// Paso 3: Crear conexión y comando
 				using (MySqlConnection conexion = new MySqlConnection(cadenaConexion))
 					using (MySqlCommand cmd = new MySqlCommand(consulta, conexion))
 				{
-					//paso 4.- relaciona los parametros con el comando
+					// Paso 4: Asignar parámetros
 					cmd.Parameters.AddWithValue("@nombre", txtNombre.Text.Trim());
 					cmd.Parameters.AddWithValue("@clave", txtClave.Text);
-					int idrol = (int)cmbRol.SelectedIndex;
 					cmd.Parameters.AddWithValue("@rol", idrol);
-					//paso 5.- abre y ejecuta la consulta
+					// Paso 5: Abrir y ejecutar
 					conexion.Open();
 					cmd.ExecuteNonQuery();
 				}

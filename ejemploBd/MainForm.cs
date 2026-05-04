@@ -38,19 +38,18 @@ namespace ejemploBd
 		public void CargarUsuarios(){
 		
 			try {
-				// paso 2 -  > establece la conexión
-
-				using (MySqlConnection conexion = new MySqlConnection(cadenaConexion)) {
-					//paso 3 crea la consulta
+				// Paso 2: Crear conexión (se libera automáticamente al salir del using)
+				using (MySqlConnection conexion = new MySqlConnection(cadenaConexion)) 
+				{
+					// Paso 3: Consulta SQL
 					string consulta = "SELECT  id, nombre, clave, rol from usuario";
 					//paso 4 Abre la conexión
 					conexion.Open();
-					//paso 5 utiliza adaptador para ejecutar la consulta
+					// Paso 4: Adaptador ejecuta consulta y llena DataTable
 					MySqlDataAdapter adaptador = new MySqlDataAdapter(consulta, conexion);
-					//paso 6 define objeto tabla y con el uso de adaptador la llenas
-					DataTable tabla = new DataTable();
+					DataTable tabla = new DataTable(); // Tabla en memoria
 					adaptador.Fill(tabla);
-					//paso 7 establece la fuente de datos del dgvUsuarios
+					// Paso 5: Mostrar datos
 					dgvUsuarios.DataSource = tabla;
 					lblEstado.Text = string.Format("Cargados {0} usuarios.", tabla.Rows.Count);
 					
