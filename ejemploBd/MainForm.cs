@@ -47,10 +47,10 @@ namespace ejemploBd
 					conexion.Open();
 					//paso 5 utiliza adaptador para ejecutar la consulta
 					MySqlDataAdapter adaptador = new MySqlDataAdapter(consulta, conexion);
-					//paso 5 define objeto tabla y con el uso de adaptador la llenas
+					//paso 6 define objeto tabla y con el uso de adaptador la llenas
 					DataTable tabla = new DataTable();
 					adaptador.Fill(tabla);
-					//paso 6 establece la fuente de datos del dgvUsuarios
+					//paso 7 establece la fuente de datos del dgvUsuarios
 					dgvUsuarios.DataSource = tabla;
 					lblEstado.Text = string.Format("Cargados {0} usuarios.", tabla.Rows.Count);
 					
