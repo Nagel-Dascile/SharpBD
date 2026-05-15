@@ -20,7 +20,11 @@
 
 ### INSTRUCCIONES
 
-Utilice el módulo de **Gestión de Usuarios** (carpeta `ejemploBd`) como guía técnica. Este módulo funciona correctamente y tiene el código completo. Su examen consiste en completar la **Gestión de Módulos y Preguntas** dentro de la carpeta `evaluacion`.
+> ⚠️ **IMPORTANTE:** El repositorio tiene dos carpetas con nombres similares.
+> * **Guía de Referencia:** Utilice la carpeta `ejemploBd` que está en la **raíz** del repositorio para consultar código funcional.
+> * **Carpeta de Examen:** Realice todos sus cambios exclusivamente dentro de la carpeta `evaluacion/ejemploBd`. Abra el archivo `.sln` ubicado dentro de esta última.
+
+Su examen consiste en completar la **Gestión de Módulos y Preguntas** dentro de la carpeta `evaluacion`.
 
 ---
 
