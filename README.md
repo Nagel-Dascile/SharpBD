@@ -144,4 +144,4 @@ Agrega los siguientes controles desde la `Toolbox`:
 *“Cada botón ejecuta una consulta SQL con parámetros. Siempre limpiamos los campos después y recargamos la grilla.”*
 
 ### 7.7. Probar (10 min)
-*“Ejecuten (F5). Agreguen una tarea, márquenla como completada, actualícenla, elimínenla. Todo debe funcionar.”*
+*“Ejecuten (F5). Agreguen una usuario, márquenla como completada, actualícenla, elimínenla. Todo debe funcionar.”*
