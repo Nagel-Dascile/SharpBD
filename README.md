@@ -69,8 +69,8 @@ Para que el aprendizaje sea rápido y claro, usaremos una tabla con **solo 3 col
 | Campo        | Tipo         | Descripción                          |
 |--------------|--------------|--------------------------------------|
 | `id`         | INT          | Número único, automático (llave primaria) |
-| `usuario`| VARCHAR(200) | Texto de la tarea                    |
-| `clave`| VARCHAR(200) | Texto de la tarea                    |
+| `usuario`| VARCHAR(200) | Texto del usuario                    |
+| `clave`| VARCHAR(200) | Texto de la clave                   |
 | `rol` | int      | 0 = administrador, 1 = jugador        |
 
 
@@ -103,7 +103,7 @@ Agrega los siguientes controles desde la `Toolbox`:
 [Inicio]
    │
    ▼
-[CargarTareas()] ────→ [Mostrar DataGridView]
+[Cargarusuarios()] ────→ [Mostrar DataGridView]
    │
    ▼
 [Esperar acción del usuario]
@@ -134,8 +134,8 @@ Agrega los siguientes controles desde la `Toolbox`:
 ### 7.3. Diseñar el formulario (10 min)
 *“Arrastren los controles como ven en la tabla. Nombren cada uno exactamente como está escrito.”*
 
-### 7.4. Escribir el código – Cargar tareas (10 min)
-*“El método `CargarTareas` se conecta, hace un `SELECT` y llena el DataGridView.”*
+### 7.4. Escribir el código – Cargar usuarios (10 min)
+*“El método `CargarUsuarios` se conecta, hace un `SELECT` y llena el DataGridView.”*
 
 ### 7.5. Seleccionar fila (5 min)
 *“El evento `SelectionChanged` captura la fila que el usuario hace clic. Guardamos el `id` y mostramos la descripción y el estado en los controles.”*
