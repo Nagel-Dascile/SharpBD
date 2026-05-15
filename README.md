@@ -145,3 +145,30 @@ Agrega los siguientes controles desde la `Toolbox`:
 
 ### 7.7. Probar (10 min)
 *“Ejecuten (F5). Agreguen una usuario, márquenla como completada, actualícenla, elimínenla. Todo debe funcionar.”*
+
+
+
+
+### 3. El proceso de entrega (Pull Request)
+
+Como quieres que te entreguen vía GitHub, lo más limpio para ti como profesor es que el **Estudiante A** (el dueño del Fork) sea quien haga el **Pull Request** hacia tu repositorio original.
+
+**¿Por qué esto es mejor para ti?**
+
+* GitHub te mostrará exactamente qué líneas de código agregaron ellos en los archivos `.cs`.
+* Podrás dejarles comentarios directamente en las líneas de código si algo está mal (ej. *"Aquí te faltó cerrar la conexión"*).
+* En el cuerpo del Pull Request, pídeles que peguen los nombres de la pareja.
+
+---
+
+### 4. Resumen de comandos sugeridos 
+
+> **Guía rápida de consola para el Laboratorio:**
+> 1. `git clone [URL_DE_SU_FORK]`
+> 2. *(Hacer los cambios en SharpDevelop)*
+> 3. `git add .`
+> 4. `git commit -m "Solución Fase 2 y 3 - Apellido1 y Apellido2"`
+> 5. `git push origin main`
+> 
+> 
+**no** suban la carpeta `bin` ni `obj` 
