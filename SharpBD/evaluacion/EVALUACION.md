@@ -4,8 +4,8 @@
 
 ### Datos de la Pareja
 
-* **Nombre 1:** Angel Yajure_____________________________________
-* **Nombre 2:** Luben Perez________________________________________
+* **Nombre 1:** Angel Yajure
+* **Nombre 2:** Luben Perez
 
 ---
 
@@ -62,13 +62,19 @@ Su examen consiste en completar la **Gestión de Módulos y Preguntas** dentro d
 ### FASE 4: Preguntas Teóricas
 
 1. **Lógica:** Si al abrir la ventana de preguntas estas aparecen vacías para todos los módulos (pero no hay errores de código), ¿qué objeto revisaría primero: la `Conexion` o la consulta `SQL`? Justifique.
-* *R:* ________________________________________________
+* *R:* El archivo de conexión, ya que si el código compila y el "bug" ocurre con todos los módulos, eso quiere decir que el problema es la conexión.
 
 
 2. **Encapsulamiento:** ¿Cuál es la ventaja de recibir el ID mediante el **Constructor** y guardarlo en una variable `private`, en lugar de simplemente declarar una variable `public` que cualquiera pueda modificar?
-* *R:* ________________________________________________
+* *R:* evitamos que ocurran cambis en los datos (valores) de manera indeseada o acidental
+
+3. **Análisis de Integridad:** En el script SQL, la relación tiene la instrucción `ON DELETE CASCADE`. ¿Qué sucede con las preguntas asociadas si eliminamos un módulo de la tabla `modulo`?* *R:* Se eilimas las preguntas asociadas al módulo, ya que SQL las vé como "hijas" del módulo que eliminamos. (Osea, si borras el módulo de Cálculo, sus preguntas relacionadas se eliminan también).
 
 
+
+4. **Tipos de Datos:** ¿Por qué es obligatorio que el campo `id_modulo` (en `pregunta`) tenga el mismo tipo de dato que el `id` (en `modulo`) para que la relación funcione?*
+*R:* porque el ID sirve como un identificador único, así el programa sabe a que módulo exacto pertenecen "x" pregunta. Aparte que el id_modulo sirve como puente para relacionar
+el ID de los módulos en otra tabla.
 
 ---
 
